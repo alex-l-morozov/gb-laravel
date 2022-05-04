@@ -1,8 +1,17 @@
 @extends('layouts.main')
 @section('title') Главная @parent @stop
 @section('content')
-    <div>Страница приветствия. Небольшая статическая страница с некоторой информацией о
-        будущем агрегаторе новостей</div>
-    <div>Переход к чтению новостей <a href="/news">Тут собраны все интересные новости</a> </div>
-    <div>Переход к чтению новостей по категориям <a href="/category">Тут собраны все интересные категории</a> </div>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">GeekBrains News</h1>
+                <p Страница приветствия. Небольшая статическая страница с некоторой информацией о
+                   будущем агрегаторе новостей</p>
+                <p>
+                    <a href="/news" class="btn btn-primary my-2">Все новости</a>
+                    <a href="/category" class="btn btn-secondary my-2">Категории новостей</a>
+                </p>
+            </div>
+        </div>
+    </section>
 @endsection
