@@ -22,12 +22,10 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Страница с информацией о проекте
-Route::get('/about/', function () {
-    return 'About project';
+// Страницу приветствия пользователей.
+Route::get('/hello/{name}', function (string $name) {
+    return 'Hello, ' . $name;
 });
-
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news');
 
