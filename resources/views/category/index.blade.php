@@ -5,10 +5,10 @@
         @forelse($categoryList as $category)
             <div class="col">
                 <div class="card shadow-sm">
-                    <img src="{{ $category['image'] }}">
+                    <img src="{{ $category->image }}">
                     <div class="card-body">
                         <strong>
-                            <a href="{{ route('category.show', ['id' => $category['id']]) }}">{{ $category['title'] }}</a>
+                            <a href="{{ route('category.show', ['id' => $category->id]) }}">{{ $category->title }}</a>
                         </strong>
                     </div>
                 </div>

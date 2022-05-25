@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request,
+    Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $category = $this->getCategory();
+        $category = DB::table('categories')->get();
         return view('category.index', [
             'categoryList' => $category
         ]);
@@ -16,10 +17,8 @@ class CategoryController extends Controller
 
     public function show(int $id)
     {
-        if ($id > 10) {
-            abort('404');
-        }
-        $category = $this->getCategory($id);
+        $category = DB::table('categories')->find($id);
+        $category->news = DB::table('news')->where('category_id', '=', $id)->get();
         return view('category.show', [
             'category' => $category
         ]);
