@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\UploadController;
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -40,6 +42,16 @@ Route::get('/category', [CategoryController::class, 'index'])
 Route::get('/category/{id}', [CategoryController::class, 'show'])
     ->where('id', '\d+')
     ->name('category.show');
+
+Route::get('/feedback', [FeedbackController::class, 'index'])
+    ->name('feedback');
+Route::post('/feedback', 'App\Http\Controllers\FeedbackController@save')
+    ->name('feedback.save');
+
+Route::get('/upload', [UploadController::class, 'index'])
+    ->name('upload');
+Route::post('/upload', 'App\Http\Controllers\UploadController@save')
+    ->name('upload.save');
 
 //admin routes
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
