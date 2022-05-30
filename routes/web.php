@@ -10,6 +10,8 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
+use App\Http\Controllers\Admin\UploadController as AdminUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,4 +63,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         ->name('index');
     Route::resource('/categories', AdminCategoryController::class);
     Route::resource('/news', AdminNewsController::class);
+    Route::resource('/feedback', AdminFeedbackController::class);
+    Route::resource('/upload', AdminUploadController::class);
 });

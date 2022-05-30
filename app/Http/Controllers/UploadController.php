@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Upload;
 use Illuminate\Http\Request;
 
 class UploadController extends Controller
@@ -19,8 +20,15 @@ class UploadController extends Controller
             'description' => ['required', 'string']
         ]);
 
-        \Storage::append('db/upload.txt', json_encode($request->only(['name', 'phone', 'email','description'])));
+        $validated = $request->except(['_token',]);
 
-        return response()->json($request->only(['name', 'phone', 'email','description']), 201);
+        $upload = Upload::create($validated);
+
+        if($upload) {
+            return redirect()->route('upload')
+                ->with('success', 'Запись успешно добавлена');
+        }
+
+        return back()->with('error', 'Ошибка добавления');
     }
 }

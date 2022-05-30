@@ -18,11 +18,11 @@
             </div>
             <div class="form-group">
                 <label for="title">Телефон</label>
-                <input type="text" id="phone" name="name" class="form-control" value="{{ old('phone') }}">
+                <input type="text" id="phone" name="phone" class="form-control" value="{{ old('phone') }}">
             </div>
             <div class="form-group">
                 <label for="title">E-mail</label>
-                <input type="text" id="email" name="name" class="form-control" value="{{ old('email') }}">
+                <input type="text" id="email" name="email" class="form-control" value="{{ old('email') }}">
             </div>
             <div class="form-group">
                 <label for="description">Что хотите получить</label>

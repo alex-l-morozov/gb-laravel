@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -19,8 +20,15 @@ class FeedbackController extends Controller
             'description' => ['required', 'string']
         ]);
 
-        \Storage::append('db/feedback.txt', json_encode($request->only(['name', 'description'])));
+        $validated = $request->except(['_token',]);
 
-        return response()->json($request->only(['name', 'description']), 201);
+        $feedback = Feedback::create($validated);
+
+        if($feedback) {
+            return redirect()->route('feedback')
+                ->with('success', 'Запись успешно добавлена');
+        }
+
+        return back()->with('error', 'Ошибка добавления');
     }
 }

@@ -20,6 +20,18 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.feedback.index') }}">
+                    <span data-feather="users"></span>
+                    Обратная связь
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.upload.index') }}">
+                    <span data-feather="users"></span>
+                    Заказ на получение выгрузки данных
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">
                     <span data-feather="users"></span>
                     Загрузки
