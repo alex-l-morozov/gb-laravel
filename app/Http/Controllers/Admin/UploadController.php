@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Queries\QueryBuilderUpload;
+use App\Http\Requests\UploadRequest;
 use Illuminate\Http\Request;
 
 class UploadController extends Controller
@@ -37,9 +38,9 @@ class UploadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(UploadRequest $request)
     {
-        $validated = $request->only(['name', 'description', 'phone', 'email']);
+        $validated = $request->validate();
         $upload = new Upload($validated);
 
         if($upload->save()) {
@@ -81,9 +82,9 @@ class UploadController extends Controller
      * @param Upload $upload
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Upload $upload)
+    public function update(UploadRequest $request, Upload $upload)
     {
-        $validated = $request->only(['name', 'description', 'phone', 'email']);
+        $validated = $request->validate();
 
         $upload = $upload->fill($validated);
         if($upload->save()) {

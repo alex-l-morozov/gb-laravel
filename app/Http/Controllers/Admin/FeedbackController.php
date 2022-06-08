@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use App\Queries\QueryBuilderFeedback;
+use App\Http\Requests\FeedbackRequest;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -37,9 +38,9 @@ class FeedbackController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(FeedbackRequest $request)
     {
-        $validated = $request->only(['name', 'description']);
+        $validated = $request->validate();
         $feedback = new Feedback($validated);
 
         if($feedback->save()) {
@@ -81,9 +82,9 @@ class FeedbackController extends Controller
      * @param Feedback $feedback
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(FeedbackRequest $request, Feedback $feedback)
     {
-        $validated = $request->only(['name', 'description']);
+        $validated = $request->validate();
 
         $feedback = $feedback->fill($validated);
         if($feedback->save()) {

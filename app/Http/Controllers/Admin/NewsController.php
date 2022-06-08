@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
 use App\Queries\QueryBuilderNews;
+use App\Http\Requests\NewsRequest;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -41,12 +42,9 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-        $validated = $request->except(['_token', 'image']);
+        $validated = $request->validate();
         $validated['slug'] = \Str::slug($validated['title']);
 
         $news = News::create($validated);
@@ -91,9 +89,9 @@ class NewsController extends Controller
      * @param News $news
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, News $news)
+    public function update(NewsRequest $request, News $news)
     {
-        $validated = $request->except(['_token', 'image']);
+        $validated = $request->validate();
         $validated['slug'] = \Str::slug($validated['title']);
 
         $news = $news->fill($validated);
