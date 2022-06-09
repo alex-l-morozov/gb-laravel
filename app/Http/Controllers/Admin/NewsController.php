@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\StoreRequest;
+use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Queries\QueryBuilderNews;
-use App\Http\Requests\NewsRequest;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -42,9 +44,9 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(NewsRequest $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $validated['slug'] = \Str::slug($validated['title']);
 
         $news = News::create($validated);
@@ -89,10 +91,14 @@ class NewsController extends Controller
      * @param News $news
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(NewsRequest $request, News $news)
+    public function update(UpdateRequest $request, News $news, UploadService $uploadService)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $validated['slug'] = \Str::slug($validated['title']);
+
+        if($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
 
         $news = $news->fill($validated);
         if($news->save()) {

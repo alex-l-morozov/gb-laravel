@@ -11,7 +11,7 @@
     <div class="row">
         @include('inc.messages')
 
-        <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}">
+        <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" enctype="multipart/form-data">
             @csrf
             @method('put')
 
@@ -43,6 +43,9 @@
             </div>
             <div class="form-group">
                 <label for="image">Изображение</label>
+                @if($news->image)
+                    <img src="{{ Storage::url($news->image) }}" style="width: 350px;">
+                @endif
                 <input type="file" id="image" name="image" class="form-control">
             </div>
             <div class="form-group">
@@ -55,3 +58,59 @@
     </div>
 
 @endsection
+
+@push('js')
+    <script src="/js/jquery.js"></script>
+    <script src="/ckeditor/ckeditor.js"></script>
+    <script>
+        var options = {
+            toolbarGroups: [
+                {
+                    "name": "document",
+                    "groups": ["mode"]
+                },
+                {
+                    "name": "paragraph",
+                    "groups": ["list", "blocks"]
+                },
+                {
+                    "name": "basicstyles",
+                    "groups": ["basicstyles"]
+                },
+                {
+                    "name": "links",
+                    "groups": ["links"]
+                },
+                {
+                    "name": "insert",
+                    "groups": ["insert"]
+                },
+                {
+                    "name": "about",
+                    "groups": ["about"]
+                }
+            ],
+            language: 'ru',
+            // uiColor: '#AADC6E',
+            // skin: 'minimalist',
+            extraPlugins: 'image2, uploadimage',
+            height: 200,
+
+            pasteFromWordRemoveFontStyles: true,
+            pasteFromWordRemoveStyles: true,
+
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+
+            stylesSet: [
+                { name: 'Narrow image', type: 'widget', widget: 'image', attributes: { 'class': 'image-narrow' } },
+                { name: 'Wide image', type: 'widget', widget: 'image', attributes: { 'class': 'image-wide' } }
+            ],
+            image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
+            image2_disableResizer: true,
+        };
+        CKEDITOR.replace('description', options);
+    </script>
+@endpush

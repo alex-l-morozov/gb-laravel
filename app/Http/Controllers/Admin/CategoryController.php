@@ -40,7 +40,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $category = new Category($validated);
 
         if($category->save()) {
@@ -84,7 +84,7 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         $category = $category->fill($validated);
         if($category->save()) {

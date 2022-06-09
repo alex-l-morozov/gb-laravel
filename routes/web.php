@@ -4,14 +4,18 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\SocialController;
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\UploadController as AdminUploadController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,12 +59,38 @@ Route::get('/upload', [UploadController::class, 'index'])
 Route::post('/upload', 'App\Http\Controllers\UploadController@save')
     ->name('upload.save');
 
-//admin routes
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::get('/', AdminController::class)
-        ->name('index');
-    Route::resource('/categories', AdminCategoryController::class);
-    Route::resource('/news', AdminNewsController::class);
-    Route::resource('/feedback', AdminFeedbackController::class);
-    Route::resource('/upload', AdminUploadController::class);
+Route::group(['middleware'=>'auth'], function() {
+    Route::get('/account', AccountController::class)
+        ->name('account');
+    //admin routes
+    Route::group(['middleware'=>'admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
+        Route::get('/', AdminController::class)
+            ->name('index');
+        Route::get('/parser', ParserController::class)
+            ->name('parser');
+        Route::resource('/categories', AdminCategoryController::class);
+        Route::resource('/news', AdminNewsController::class);
+        Route::resource('/feedback', AdminFeedbackController::class);
+        Route::resource('/upload', AdminUploadController::class);
+        Route::resource('/users', AdminUserController::class)->withoutMiddleware(['auth']);
+    });
 });
+
+
+
+Auth::routes();
+
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/auth/{driver}/redirect', [SocialController::class, 'redirect'])
+        ->where('driver', '\w+')
+        ->name('social.redirect');
+    Route::any('/auth/{driver}/callback', [SocialController::class, 'callback'])
+        ->where('driver', '\w+')
+        ->name('social.callback');
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

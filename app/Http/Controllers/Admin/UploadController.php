@@ -40,7 +40,7 @@ class UploadController extends Controller
      */
     public function store(UploadRequest $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $upload = new Upload($validated);
 
         if($upload->save()) {
@@ -84,7 +84,7 @@ class UploadController extends Controller
      */
     public function update(UploadRequest $request, Upload $upload)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         $upload = $upload->fill($validated);
         if($upload->save()) {
