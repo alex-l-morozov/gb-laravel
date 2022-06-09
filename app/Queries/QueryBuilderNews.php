@@ -20,4 +20,9 @@ class QueryBuilderNews implements QueryBuilder
     {
         return News::with('category')->paginate(10);
     }
+
+    public function getNewsBySlug(string $slug): Builder
+    {
+        return News::where('slug', $slug);
+    }
 }

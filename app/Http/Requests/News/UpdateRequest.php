@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Http\Requests;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
-class NewsRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +25,13 @@ class NewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['required', 'integer', 'exists:news'],
-            'title'       => ['required', 'string', 'min:3', 'max:150'],
-            'status'      => ['required', 'string', 'min:5', 'max:7'],
-            'author'      => ['required', 'string'],
-            'image'       => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
-            'description' => ['nullable', 'string']
+            'category_id' => ['required', 'integer', 'min:1',
+                'exists:categories,id'],
+            'title' => ['required', 'string', 'min:5', 'max:250'],
+            'author' => ['required', 'string', 'min:2', 'max:50'],
+            'image'  => ['nullable', 'image', 'mimes:png,jpg'],
+            'status' => ['required', 'string', 'min:5', 'max:7'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

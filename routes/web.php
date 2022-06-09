@@ -91,4 +91,8 @@ Route::group(['middleware' => 'guest'], function() {
         ->name('social.callback');
 });
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

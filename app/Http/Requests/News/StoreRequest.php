@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Http\Requests;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
-class NewsRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

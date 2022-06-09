@@ -40,7 +40,7 @@ class FeedbackController extends Controller
      */
     public function store(FeedbackRequest $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $feedback = new Feedback($validated);
 
         if($feedback->save()) {
@@ -84,7 +84,7 @@ class FeedbackController extends Controller
      */
     public function update(FeedbackRequest $request, Feedback $feedback)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         $feedback = $feedback->fill($validated);
         if($feedback->save()) {
