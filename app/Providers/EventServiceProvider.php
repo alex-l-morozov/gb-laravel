@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\UserLastLoginEvent;
+use App\Listeners\UserLastLoginListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +20,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        UserLastLoginEvent::class => [
+            UserLastLoginListener::class
+        ],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            // ... other providers
+            \SocialiteProviders\VKontakte\VKontakteExtendSocialite::class.'@handle',
+        ],
     ];
 
     /**
@@ -28,5 +37,15 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return false;
     }
 }
