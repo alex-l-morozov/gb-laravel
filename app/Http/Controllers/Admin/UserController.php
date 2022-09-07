@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $user = new User($validated);
 
         if($user->save()) {
@@ -86,7 +86,7 @@ class UserController extends Controller
     {
         dd($request);
 
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         $user = $user->fill($validated);
         if($user->save()) {
