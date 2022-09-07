@@ -20,6 +20,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.users.index') }}">
+                    <span data-feather="shopping-cart"></span>
+                    Пользователи
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.feedback.index') }}">
                     <span data-feather="users"></span>
                     Обратная связь
